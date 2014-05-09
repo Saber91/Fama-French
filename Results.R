@@ -511,3 +511,50 @@ ggsave("HML of AEA.png")
 dev.off()
 
 
+# Tests -------------------------------------------------------------------
+
+# White Test for Heteroskedasticity
+
+FFDenwh <- data.frame(W_Statistic = FF25[,"W Statistic"])
+Chi9_95 <- data.frame( y = c(-Inf, Inf), x = qchisq(0.95, df = 9) , Significance = factor("a = 0.05") )
+Chi9_99 <- data.frame( y = c(-Inf, Inf), x = qchisq(0.99, df = 9) , Significance = factor("a = 0.01") )
+Ave <- data.frame( y = c(-Inf, Inf), x = mean(FF25[,"W Statistic"]) , Significance = factor("Mean") )
+
+ggplot(FFDenwh, aes(x=W_Statistic)) + geom_density() + theme_bw() +
+  geom_line(aes( x, y, color = Significance), Chi9_95,linetype="dashed", size=1) +
+  geom_line(aes( x, y, color = Significance), Chi9_99,linetype="dashed", size=1) +
+  geom_line(aes( x, y, color = Significance), Ave,linetype="dashed", size=1) +
+  ggtitle("LM Statistic of White Test for Heteroskedasticity")
+ggsave("LM Statistic of White Test for Heteroskedasticity.png",width = 12,height= 8)
+dev.off()
+
+
+# BREUSCH-PAGAN Test for Heteroskedasticity
+
+FFDenbp <- data.frame(BP_Statistic = FF25[,"BP Statistic"])
+Chi2_95 <- data.frame( y = c(-Inf, Inf), x = qchisq(0.95, df = 2) , Significance = factor("a = 0.05") )
+Chi2_99 <- data.frame( y = c(-Inf, Inf), x = qchisq(0.99, df = 2) , Significance = factor("a = 0.01") )
+Ave <- data.frame( y = c(-Inf, Inf), x = mean(FF25[,"BP Statistic"]) , Significance = factor("Mean") )
+
+ggplot(FFDenbp, aes(x=BP_Statistic)) + geom_density() + theme_bw() +
+  geom_line(aes( x, y, color = Significance), Chi2_95,linetype="dashed", size=1) +
+  geom_line(aes( x, y, color = Significance), Chi2_99,linetype="dashed", size=1) +
+  geom_line(aes( x, y, color = Significance), Ave,linetype="dashed", size=1) +
+  ggtitle("LM Statistic of BREUSCH-PAGAN Test for Heteroskedasticity")
+ggsave("LM Statistic of BREUSCH-PAGAN Test for Heteroskedasticity.png",width = 12,height= 8)
+dev.off()
+
+# BREUSCH-Godfrey Test for Serial corrolation
+
+FFDenbg <- data.frame(BG_Statistic = FF25[,"BG Statistic"])
+Chi1_95 <- data.frame( y = c(-Inf, Inf), x = qchisq(0.95, df = 1) , Significance = factor("a = 0.05") )
+Chi1_99 <- data.frame( y = c(-Inf, Inf), x = qchisq(0.99, df = 1) , Significance = factor("a = 0.01") )
+Ave <- data.frame( y = c(-Inf, Inf), x = mean(FF25[,"BG Statistic"]) , Significance = factor("Mean") )
+
+ggplot(FFDenbg, aes(x=BG_Statistic)) + geom_density() + theme_bw() +
+  geom_line(aes( x, y, color = Significance), Chi2_95,linetype="dashed", size=1) +
+  geom_line(aes( x, y, color = Significance), Chi2_99,linetype="dashed", size=1) +
+  geom_line(aes( x, y, color = Significance), Ave,linetype="dashed", size=1) +
+  ggtitle("LM Statistic of BREUSCH-Godfrey Test for Serial corrolation")
+ggsave("LM Statistic of BREUSCH-Godfrey Test for Serial corrolation.png",width = 12,height= 8)
+dev.off()

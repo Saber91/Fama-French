@@ -26,7 +26,7 @@ FFc <- function (X) {
 
 # R^2
 
-FFr <- function (X) {
+FFr2 <- function (X) {
   lm <- lm( X ~ market+SMB+HML )
   r <- summary(lm)$r.squared
   return(r)
@@ -97,6 +97,14 @@ FFt5 <- function (X) {
   T5 <- c(c,t,Pr)
   return(T5)
 }
+
+# Residuals
+
+# FFr <- function(X) {
+#   lm <- lm(X~market+SMB+HML)
+#   s <- summary(lm)
+#   R <- s$residuals
+#   return(R)     }
 
 # Functions for Tests -----------------------------------------------------
 
@@ -242,15 +250,15 @@ FF <- function(F,n) {
   
   # R^2
   
-  X <- FFr(F[,2])
-  FF_R <- data.frame(X)
+  X <- FFr2(F[,2])
+  FF_R2 <- data.frame(X)
   for ( i in 3: m ) {
-    X <- FFr(F[,i])
-    FF_R[i-1] <- data.frame(X) }
+    X <- FFr2(F[,i])
+    FF_R2[i-1] <- data.frame(X) }
   
-  FF_R <- t(FF_R[,1:ncol(FF_R)])
-  rownames(FF_R) <- rep(1: n )
-  colnames(FF_R) <- c("R_Sq")
+  FF_R2 <- t(FF_R2[,1:ncol(FF_R2)])
+  rownames(FF_R2) <- rep(1: n )
+  colnames(FF_R2) <- c("R_Sq")
   
   # std
   
@@ -310,6 +318,18 @@ FF <- function(F,n) {
   FF_T5 <- t(FF_T5[,1:ncol(FF_T5)])
   rownames(FF_T5) <- rep(1: n )
   
+  # Residulas
+#   
+#   X <- FFr(F[,2])
+#   FF_R <- data.frame(X)
+#   for ( i in 3: m ) {
+#     X <- FFr(F[,i])
+#     FF_R[i-1] <- data.frame(X) }
+#   
+#   FF_R <- t(FF_R[,1:ncol(FF_R)])
+#   rownames(FF_R) <- rep(1: n )
+#   colnames(FF_R) <- c("Residulas")
+#   
   # F
   
   X <- FFf(F[,2])
@@ -419,8 +439,8 @@ FF <- function(F,n) {
   colnames(FF_CH) <- c("CH Breckpoint")
   
   
-  ff <- cbind(FF_C,FF_R,FF_STD,FF_T,FF_PR,FF_T4,FF_T5,FF_F,FF_T1,FF_W,FF_BP,FF_DW
-              ,FF_BG,FF_SW,FF_DF,FF_CH)
+  ff <- cbind(FF_C,FF_R2,FF_STD,FF_T,FF_PR,FF_T4,FF_T5,#FF_R,
+              FF_F,FF_T1,FF_W,FF_BP,FF_DW,FF_BG,FF_SW,FF_DF,FF_CH)
   detach(F)
   
   return(ff) }
@@ -445,7 +465,7 @@ FFin <- function (X) {
   c <- coef(lm)
   names(c) <- c("Intercept(In)","market(In)","SMB(In)","HML(In)","In(In)")
   c["R_sq"] <- s$r.squared
-  c["D.R_Sq"] <- c["R_sq"] - FFr (X)
+  c["D.R_Sq"] <- c["R_sq"] - FFr2 (X)
   cs <- coef(s)
   t <- cs[,"t value"]
   names(t) <- c("t.Intercept","t.market","t.SMB","t.HML","t.In")
